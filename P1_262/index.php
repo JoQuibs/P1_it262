@@ -13,6 +13,8 @@
         <nav>
             <ul>
                 <li><a href="celcius.php">C-F</a></li>
+                <li><a href="far.php">F-C</a></li>
+                <li><a href="kel.php">K-C</a></li>
             </ul>
         </nav>
     </header>
