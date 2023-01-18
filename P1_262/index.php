@@ -25,28 +25,30 @@ if($_SERVER['REQUEST_METHOD'] =='POST') {
     <link href="./css/styles.css" type="text/css" rel="stylesheet">
 </head>
 <body>
-    <form action="" method="POST">
-    <p>Input Number: <input type="number" name="userInput" value="<?php if(isset($_POST['userInput'])) echo $_POST['userInput'];?>"/></p>
+<form action="" method="POST">
+    <fieldset>
+        <legend>Temperature Converter</legend>
+        <label>Input Number:</label>
+      <input type="number" name="userInput" value="<?php if(isset($_POST['userInput'])) echo $_POST['userInput'];?>">
 <!-- Temp toggle container -->
-<div>
     <!-- Temp A here  -->
-    <div>
-        <p><input type="radio" name="tempA" value="fahr" /> Fahrenheit </p>
-        <p><input type="radio" name="tempA" value="cel" /> Celsius</p>
-        <p><input type="radio" name="tempA" value="kel" /> Kelvin</p>
-    </div>
-    <div>
-        <p>Convert To</p>
-    </div>
+        <label>Temperature Type:</label>
+        <ul>
+        <li><input type="radio" name="tempA" value="fahr"> Fahrenheit</li>
+        <li><input type="radio" name="tempA" value="cel"> Celsius</li>
+        <li><input type="radio" name="tempA" value="kel"> Kelvin</li>
+        </ul>
+
     <!-- Temp B here -->
-    <div>
-        <p><input type="radio" name="tempB" value="fahr" /> Fahrenheit </p>
-        <p><input type="radio" name="tempB" value="cel" /> Celsius</p>
-        <p><input type="radio" name="tempB" value="kel" /> Kelvin</p>
-    </div>
-</div>
-    <p><input type="submit"/></p>
-    </form>
+        <label>Convert To:</label>
+        <ul>
+        <li><input type="radio" name="tempB" value="fahr"> Fahrenheit </li>
+        <li><input type="radio" name="tempB" value="cel"> Celsius</li>
+        <li><input type="radio" name="tempB" value="kel"> Kelvin</li>
+        </ul>
+    <input type="submit" value="Convert">
+    </fieldset>
+</form>
     <?php
     echo '<pre>';
     echo var_dump($_POST);
