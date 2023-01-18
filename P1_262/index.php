@@ -4,52 +4,7 @@ $input = '';
 $msg = '';
 
 #------fehr
-function fehrTofehr()
-{
-    //Code here
-    echo 'beep boop, fehr To fehr';
-}
-function fehrToCel()
-{
-    //Code here
-    echo 'beep boop, fehr To Cel';
-}
-function fehrToKel()
-{
-    //Code here
-    echo 'beep boop, fehr To Kel';
-}
 
-function celTofehr()
-{
-    //Code here
-    echo 'beep boop, cel To fehr';
-}
-function celToCel()
-{
-    //Code here
-    echo 'beep boop, cel To Cel';
-}
-function celToKel()
-{
-    //Code here
-    echo 'beep boop, cel To Kel';
-}
-function kelTofehr()
-{
-    //Code here
-    echo 'beep boop, kel To fehr';
-}
-function kelToCel()
-{
-    //Code here
-    echo 'beep boop, kel To Cel';
-}
-function kelToKel()
-{
-    //Code here
-    echo 'beep boop, kel To Kel';
-}
 
 //check server request
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -58,15 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $input = intval($_POST['userInput']);
     } //This is a Ternary operator, condition ? true:false
     //if both toggle empty, print warning
-    if (!isset($_POST['tempA']) && !isset($_POST['tempB'])) {
+    if (!array_key_exists('tempA',$_POST) && !array_key_exists('tempB',$_POST)) {
         $msg = 'Please pick two temperatures to convert';
     }
     //if one is toggled and not the other, print warning
     if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
-        $msg = 'Please pick One temperatures to convert';
+        $msg = 'Please pick a temperature type ';
     }
     if (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
-        $msg = 'Please pick One temperatures to convert';
+        $msg = 'Please pick a temperature to convert';
     }
 
     //if tempA and temp
