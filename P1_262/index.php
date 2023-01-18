@@ -1,10 +1,13 @@
 <?php
-//initalize variables/functions
+//initalize variables
 $input = '';
+$conversion = '';
 $msg = '';
 
-#------fehr
-
+#------set conversion functions
+function fahrToCel($arg) {
+    return $arg .' executed from fahrToCell function';
+}
 
 //check server request
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -12,11 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_POST['userInput'])) {
         $input = intval($_POST['userInput']);
     } //This is a Ternary operator, condition ? true:false
+
     //if both toggle empty, print warning
     if (!array_key_exists('tempA',$_POST) && !array_key_exists('tempB',$_POST)) {
         $msg = 'Please pick two temperatures to convert';
-    }
-    //if one is toggled and not the other, print warning
+
+    } else {//keys exist
+     
+        //if one is toggled and not the other, print warning
     if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
         $msg = 'Please pick a temperature type ';
     }
@@ -24,8 +30,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $msg = 'Please pick a temperature to convert';
     }
 
-    //if tempA and temp
-}
+    //if tempA and tempB are the same
+    if($_POST['tempA']=='fahr' && $_POST['tempB']=='fahr' ) {
+        # Here is where we place all formulas and save to conversion--------------------
+        if(empty($input)) {
+            $msg= 'input a value';
+        } else {
+            //
+            $conversion = fahrToCel($input);
+        }
+        
+    }
+    }//end else
+}//
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     echo var_dump($input);
     echo var_dump($msg);
     echo '</pre>';
-
+    echo $conversion;
     ?>
     
 </body>
