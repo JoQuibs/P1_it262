@@ -1,19 +1,76 @@
 <?php
-//initalize variables
+//initalize variables/functions
+$input = '';
+$msg = '';
 
-
-//check server request
-if($_SERVER['REQUEST_METHOD'] =='POST') {
-    //Check POST associate array
-    empty($_POST['userInput']) ? : $_POST['userInput'] ; //This is a Ternary operator, condition ? true:false
-    //if both toggle empty, print warning
-   
-
-
+#------fehr
+function fehrTofehr()
+{
+    //Code here
+    echo 'beep boop, fehr To fehr';
+}
+function fehrToCel()
+{
+    //Code here
+    echo 'beep boop, fehr To Cel';
+}
+function fehrToKel()
+{
+    //Code here
+    echo 'beep boop, fehr To Kel';
 }
 
+function celTofehr()
+{
+    //Code here
+    echo 'beep boop, cel To fehr';
+}
+function celToCel()
+{
+    //Code here
+    echo 'beep boop, cel To Cel';
+}
+function celToKel()
+{
+    //Code here
+    echo 'beep boop, cel To Kel';
+}
+function kelTofehr()
+{
+    //Code here
+    echo 'beep boop, kel To fehr';
+}
+function kelToCel()
+{
+    //Code here
+    echo 'beep boop, kel To Cel';
+}
+function kelToKel()
+{
+    //Code here
+    echo 'beep boop, kel To Kel';
+}
 
+//check server request
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //Check POST associate array
+    if (!empty($_POST['userInput'])) {
+        $input = intval($_POST['userInput']);
+    } //This is a Ternary operator, condition ? true:false
+    //if both toggle empty, print warning
+    if (!isset($_POST['tempA']) && !isset($_POST['tempB'])) {
+        $msg = 'Please pick two temperatures to convert';
+    }
+    //if one is toggled and not the other, print warning
+    if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
+        $msg = 'Please pick One temperatures to convert';
+    }
+    if (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
+        $msg = 'Please pick One temperatures to convert';
+    }
 
+    //if tempA and temp
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +86,11 @@ if($_SERVER['REQUEST_METHOD'] =='POST') {
     <fieldset>
         <legend>Temperature Converter</legend>
         <label>Input Number:</label>
-      <input type="number" name="userInput" value="<?php if(isset($_POST['userInput'])) echo $_POST['userInput'];?>">
+      <input type="number" name="userInput" value="<?php if (
+          isset($_POST['userInput'])
+      ) {
+          echo $_POST['userInput'];
+      } ?>">
 <!-- Temp toggle container -->
     <!-- Temp A here  -->
         <label>Temperature Type:</label>
@@ -52,10 +113,10 @@ if($_SERVER['REQUEST_METHOD'] =='POST') {
     <?php
     echo '<pre>';
     echo var_dump($_POST);
-    
-    echo'</pre>'
-    
-    
+    echo var_dump($input);
+    echo var_dump($msg);
+    echo '</pre>';
+
     ?>
     
 </body>
