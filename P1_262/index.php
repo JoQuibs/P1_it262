@@ -18,23 +18,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     //if both toggle empty, print warning
     if (!array_key_exists('tempA',$_POST) && !array_key_exists('tempB',$_POST)) {
-        $msg = 'Please pick two temperatures to convert';
+        $msg = '<p class="error">Please pick two temperatures to convert</p>';
 
     } else {//keys exist
      
         //if one is toggled and not the other, print warning
     if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
-        $msg = 'Please pick a temperature type ';
+        $msg = '<p class="error">Please pick a temperature type</p>';
     }
     if (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
-        $msg = 'Please pick a temperature to convert';
+        $msg = '<p class="error">Please pick a temperature to convert</p>';
     }
 
     //if tempA and tempB are the same
     if($_POST['tempA']=='fahr' && $_POST['tempB']=='fahr' ) {
         # Here is where we place all formulas and save to conversion--------------------
         if(empty($input)) {
-            $msg= 'input a value';
+            $msg= '<p class="error">input a value</p>';
         } else {
             //
             $conversion = fahrToCel($input);
@@ -80,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <li><input type="radio" name="tempB" value="kel"> Kelvin</li>
         </ul>
     <input type="submit" value="Convert">
+    <a href=''>Reset</a>
     </fieldset>
 </form>
     <?php
