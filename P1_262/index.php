@@ -4,10 +4,12 @@ $input = '';
 $conversion = '';
 $msg = '';
 
-#------set conversion functions
+#set conversion functions here=============================================
 function fahrToCel($arg) {
     return $arg .' executed from fahrToCell function';
 }
+
+#=======================================================================
 
 //check server request
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -30,17 +32,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $msg = '<p class="error">Please pick a temperature to convert</p>';
     }
 
+#============================================================================
     //if tempA and tempB are the same
     if($_POST['tempA']=='fahr' && $_POST['tempB']=='fahr' ) {
-        # Here is where we place all formulas and save to conversion--------------------
-        if(empty($input)) {
-            $msg= '<p class="error">input a value</p>';
+
+        if(empty($input)) {//if no value in input
+            $msg= '<p class="error">input a value</p>';//return message
         } else {
             //
-            $conversion = fahrToCel($input);
+            $conversion = fahrToCel($input);//else, execute function and save to variable
         }
-        
-    }
+    }//turn this to elseif and write something similar to line 35 to 42 but custom to each temp function
+    
+
+
+#===================================================================================
     }//end else
 }//
 ?>
