@@ -4,83 +4,137 @@ $input = '';
 $conversion = '';
 $msg = '';
 
-#set conversion functions here=============================================
-function fahrToCel($arg) {
+function fahrToCel($arg)
+{
     $num = $arg;
     $int_val = intval($num);
-    $conversion = ($int_val - 32) * 5/9;
+    $conversion = (($int_val - 32) * 5) / 9;
     return $conversion;
 }
 
-function fahrToKel($arg){
+function fahrToKel($arg)
+{
     $num = $arg;
     $int_val = intval($num);
-    $conversion = ($int_val - 32) * 5/9 + 273.15;
+    $conversion = (($int_val - 32) * 5) / 9 + 273.15;
     return $conversion;
 }
 
-function celToKel($arg){
+function celToKel($arg)
+{
     $num = $arg;
     $int_val = intval($num);
     $conversion = $int_val + 273.15;
     return $conversion;
 }
 
-function celToFahr($arg) {
+function celToFahr($arg)
+{
     $num = $arg;
     $int_val = intval($num);
-    $conversion = ($int_val * 9/5) + 32;
+    $conversion = ($int_val * 9) / 5 + 32;
     return $conversion;
 }
 
-function kelToFahr($arg){
+function kelToFahr($arg)
+{
     $num = $arg;
     $int_val = intval($num);
-    $conversion = ($int_val - 273.15) * 9/5 + 32;
+    $conversion = (($int_val - 273.15) * 9) / 5 + 32;
     return $conversion;
 }
 
-function kelToCel($arg){
+function kelToCel($arg)
+{
     $num = $arg;
     $int_val = intval($num);
     $conversion = $int_val - 273.15;
     return $conversion;
 }
-function result(){
-    
+
+function conversionMsg($input, $conversion)
+{
+    return '<p class = "result">The conversion of <b>' .
+        $input .
+        '</b> from <b>' .
+        strtoupper($_POST['tempA'][0]) .
+        '°</b> to <b>' .
+        strtoupper($_POST['tempB'][0]) .
+        '°</b> is equal to <b>' .
+        number_format((float) $conversion, 2) .
+        '</b> degrees!</p>';
 }
+
 #=======================================================================
 
 //check server request
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //Check POST associate array
-    if (!empty($_POST['userInput'])) {
+    if (empty($_POST['userInput'])) {
+        $msg = '<p class="error">input a value</p>';
+    } else {
         $input = intval($_POST['userInput']);
-    } //This is a Ternary operator, condition ? true:false
 
-    //if both toggle empty, print warning
-    if (!array_key_exists('tempA',$_POST) && !array_key_exists('tempB',$_POST)) {
-        $msg = '<p class="error">Please pick two temperatures to convert</p>';
-
-    } else {//keys exist
-     
-        //if one is toggled and not the other, print warning
-    if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
-        $msg = '<p class="error">Please pick a temperature type</p>';
+        //if both toggle empty, print warning
+        if (
+            !array_key_exists('tempA', $_POST) &&
+            !array_key_exists('tempB', $_POST)
+        ) {
+            $msg =
+                '<p class="error">Please pick two temperatures to convert</p>';
+        } else {
+            //keys exists
+            //if one is toggled and not the other, print warning
+            if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
+                $msg = '<p class="error">Please pick a conversion type</p>';
+            } elseif (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
+                $msg =
+                    '<p class="error">Please pick a temperature to convert</p>';
+            } else {
+                //temp combo options
+                if ($_POST['tempA'] == 'fahr' && $_POST['tempB'] == 'cel') {
+                    $conversion = fahrToCel($input);
+                    $msg = conversionMsg($input, $conversion);
+                } elseif (
+                    $_POST['tempA'] == 'fahr' &&
+                    $_POST['tempB'] == 'kel'
+                ) {
+                    $conversion = fahrToKel($input);
+                    $msg = conversionMsg($input, $conversion);
+                } elseif (
+                    $_POST['tempA'] == 'cel' &&
+                    $_POST['tempB'] == 'fahr'
+                ) {
+                    $conversion = celToFahr($input);
+                    $msg = conversionMsg($input, $conversion);
+                } elseif (
+                    $_POST['tempA'] == 'cel' &&
+                    $_POST['tempB'] == 'kel'
+                ) {
+                    $conversion = celToKel($input);
+                    $msg = conversionMsg($input, $conversion);
+                } elseif (
+                    $_POST['tempA'] == 'kel' &&
+                    $_POST['tempB'] == 'fahr'
+                ) {
+                    $conversion = kelToFahr($input);
+                    $msg = conversionMsg($input, $conversion);
+                } elseif (
+                    $_POST['tempA'] == 'kel' &&
+                    $_POST['tempB'] == 'cel'
+                ) {
+                    $conversion = kelToCel($input);
+                    $msg = conversionMsg($input, $conversion);
+                } else {
+                    // temp same, please try again
+                    $msg = conversionMsg($input, $input);
+                }
+            }
+        }
     }
-    if (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
-        $msg = '<p class="error">Please pick a temperature to convert</p>';
-    }
+}
 
-#============================================================================
-
-    //turn this to elseif and write something similar to line 35 to 42 but custom to each temp function
-    
-
-
-#===================================================================================
-    }//end else
-}//
+//end server request
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,7 +150,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <fieldset>
         <legend>Temperature Converter</legend>
         <label>Input Number:</label>
-      <input type="number" name="userInput" value="<?php if (isset($_POST['userInput'])) {
+      <input type="number" name="userInput" value="<?php if (
+          isset($_POST['userInput'])
+      ) {
           echo $_POST['userInput'];
       } ?>">
 <!-- Temp toggle container -->
@@ -116,40 +172,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <li><input type="radio" name="tempB" value="kel"> Kelvin</li>
         </ul>
     <input type="submit" value="Convert">
-    <a href=''>Reset</a>
     </fieldset>
 </form>
-    <?php
-        if($_POST['tempA']=='fahr' && $_POST['tempB']=='cel') {
-            //
-            $conversion = fahrToCel($input);//else, execute function and save to variable
-            echo '<p class="result">The conversion of <b>'.$input.'</b> from <b>Fahrenheit</b> to <b>Celsius</b> is <b>'.number_format((float)$conversion,2).'</b> degrees!</p>';
-
-        } else if($_POST['tempA']=='fahr' && $_POST['tempB']=='kel') {
-            $conversion = fahrToKel($input);
-            echo '<p class="result">The conversion of <b>'.$input.'</b> from <b>Fahrenheit</b> to <b>Kelvin</b> is <b>'.number_format((float)$conversion,2).'</b> degrees!</p>';
-        
-        } else if($_POST['tempA']=='cel' && $_POST['tempB']=='fahr') {
-            $conversion = celToFahr($input);
-            echo '<p class="result">The conversion of <b>'.$input.'</b> from <b>Celsius</b> to <b>Fahrenheit</b> is <b>'.number_format((float)$conversion,2).'</b> degrees!</p>';
-        
-        } else if($_POST['tempA']=='cel' && $_POST['tempB']=='kel') {
-            $conversion = celToKel($input);
-            echo '<p class="result">The conversion of <b>'.$input.'</b> from <b>Celsius</b> to <b>Kelvin</b> is <b>'.number_format((float)$conversion,2).'</b> degrees!</p>';
-        
-        } else if($_POST['tempA']=='kel' && $_POST['tempB']=='fahr') {
-            $conversion = kelToFahr($input);
-            echo '<p class="result">The conversion of <b>'.$input.'</b> from <b>Kelvin</b> to <b>Fahrenheit</b> is <b>'.number_format((float)$conversion,2).'</b> degrees!</p>';
-        
-        } else if($_POST['tempA']=='kel' && $_POST['tempB']=='cel') {
-            $conversion = kelToCel($input);
-            echo '<p class="result">The conversion of <b>'.$input.'</b> from <b>Kelvin</b> to <b>Celsius</b> is <b>'.number_format((float)$conversion,2).'</b> degrees!</p>';
-        
-        } else if($_POST['tempA']==NULL) {
-            echo '<p class="error">Please fill out the form completely!</p>';
-        }
-
-    ?>
+    <?php echo $msg; ?>
     
 </body>
 </html>
