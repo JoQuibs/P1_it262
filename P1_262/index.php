@@ -69,7 +69,7 @@ function conversionMsg($input, $conversion)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //Check POST associate array
     if (empty($_POST['userInput'])) {
-        $msg = 'Please input a value';
+        $msg = '<p class="error">input a value</p>';
     } else {
         $input = intval($_POST['userInput']);
 
@@ -78,14 +78,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             !array_key_exists('tempA', $_POST) &&
             !array_key_exists('tempB', $_POST)
         ) {
-            $msg = 'Please pick two temperatures to convert';
+            $msg =
+                '<p class="error">Please pick two temperatures to convert</p>';
         } else {
             //keys exists
             //if one is toggled and not the other, print warning
             if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
-                $msg = 'Please pick a temperature type ';
+                $msg = '<p class="error">Please pick a temperature type</p>';
             } elseif (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
-                $msg = 'Please pick a temperature to convert';
+                $msg =
+                    '<p class="error">Please pick a temperature to convert</p>';
             } else {
                 //temp combo options
                 if ($_POST['tempA'] == 'fahr' && $_POST['tempB'] == 'cel') {
@@ -125,9 +127,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // temp same, please try again
                     $msg = conversionMsg($input, $input);
                 }
-            } 
-        } 
-    } 
+            }
+        }
+    }
 }
 
 //end server request
@@ -168,16 +170,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <li><input type="radio" name="tempB" value="kel"> Kelvin</li>
         </ul>
     <input type="submit" value="Convert">
+     <a href=''>Reset</a>
     </fieldset>
 </form>
-    <?php
-    echo '<pre>';
-    echo var_dump($_POST);
-    echo var_dump($input) . 'input--line 140 <br>';
-    echo var_dump($msg) . 'msg==line141     ';
-    echo '</pre>';
-    echo $conversion;
-    ?>
+    <?php echo $msg; ?>
     
 </body>
 </html>
