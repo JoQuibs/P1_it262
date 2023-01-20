@@ -6,7 +6,45 @@ $msg = '';
 
 #set conversion functions here=============================================
 function fahrToCel($arg) {
-    return $arg .' executed from fahrToCell function';
+    $num = $arg;
+    $int_val = intval($num);
+    $conversion = ($int_val - 32) * 5/9;
+    return $conversion
+}
+
+function fahrToKel($arg){
+    $num = $arg;
+    $int_val = intval($num);
+    $conversion = ($int_val - 32) * 5/9 + 273.15;
+    return $conversion;
+}
+
+function celToKel($arg){
+    $num = $arg;
+    $int_val = intval($num);
+    $conversion = $int_val + 273.15;
+    return $conversion;
+}
+
+function celToFahr($arg) {
+    $num = $arg;
+    $int_val = intval($num);
+    $conversion = ($int_val * 9/5) + 32;
+    return $conversion
+}
+
+function kelToFahr($arg){
+    $num = $arg;
+    $int_val = intval($num);
+    $conversion = ($int_val - 273.15) * 9/5 + 32;
+    return $conversion;
+}
+
+function kelToCel($arg){
+    $num = $arg;
+    $int_val = intval($num);
+    $conversion = $int_val - 273.15;
+    return $conversion;
 }
 
 #=======================================================================
