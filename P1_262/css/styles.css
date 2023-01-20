@@ -49,3 +49,9 @@ form ul {
     font-style: italic;
     text-align: center;
 }
+
+.result {
+    color: darkorange;
+    font-size: larger;
+    text-align: center;
+}
