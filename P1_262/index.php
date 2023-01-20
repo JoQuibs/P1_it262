@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </form>
     <?php
 
-    echo 'The conversion of '.$input.' from '.$_POST['tempA'].' to '.$_POST['tempB'].' is equal to '.$conversion.' degrees';
+    echo 'The conversion of '.$input.' from '.$_POST['tempA'].' to '.$_POST['tempB'].' is equal to '.number_format((float)$conversion, 2).' degrees';
     ?>
     
 </body>
