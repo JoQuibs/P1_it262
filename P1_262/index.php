@@ -9,7 +9,7 @@ function fahrToCel($arg) {
     $num = $arg;
     $int_val = intval($num);
     $conversion = ($int_val - 32) * 5/9;
-    return $conversion
+    return $conversion;
 }
 
 function fahrToKel($arg){
@@ -30,7 +30,7 @@ function celToFahr($arg) {
     $num = $arg;
     $int_val = intval($num);
     $conversion = ($int_val * 9/5) + 32;
-    return $conversion
+    return $conversion;
 }
 
 function kelToFahr($arg){
@@ -72,15 +72,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 #============================================================================
     //if tempA and tempB are the same
-    if($_POST['tempA']=='fahr' && $_POST['tempB']=='fahr' ) {
+    if($_POST['tempA']=='fahr' && $_POST['tempB']=='cel') {
 
         if(empty($input)) {//if no value in input
             $msg= '<p class="error">input a value</p>';//return message
-        } else {
+        }
             //
             $conversion = fahrToCel($input);//else, execute function and save to variable
-        }
-    }//turn this to elseif and write something similar to line 35 to 42 but custom to each temp function
+        
+        } else if($_POST['tempA']=='fahr' && $_POST['tempB']=='kel') {
+            $conversion = fahrToKel($input);
+        
+        } else if($_POST['tempA']=='cel' && $_POST['tempB']=='fahr') {
+            $conversion = celToFahr($input);
+        
+        } else if($_POST['tempA']=='cel' && $_POST['tempB']=='kel') {
+            $conversion = celToKel($input);
+        
+        } else if($_POST['tempA']=='kel' && $_POST['tempB']=='fahr') {
+            $conversion = kelToFahr($input);
+        
+        } else if($_POST['tempA']=='kel' && $_POST['tempB']=='cel') {
+            $conversion = kelToCel($input);
+        
+        } 
+    //turn this to elseif and write something similar to line 35 to 42 but custom to each temp function
     
 
 
@@ -128,12 +144,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </fieldset>
 </form>
     <?php
-    echo '<pre>';
-    echo var_dump($_POST);
-    echo var_dump($input);
-    echo var_dump($msg);
-    echo '</pre>';
-    echo $conversion;
+
+    echo 'The conversion of '.$input.' from '.$_POST['tempA'].' to '.$_POST['tempB'].' is equal to '.$conversion.' degrees';
     ?>
     
 </body>
