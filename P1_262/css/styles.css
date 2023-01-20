@@ -60,3 +60,7 @@ a {
     margin: auto;
     text-align: center;
 }
+legend {
+    margin: auto;
+    text-decoration: underline;
+}
