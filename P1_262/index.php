@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //keys exists
             //if one is toggled and not the other, print warning
             if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
-                $msg = '<p class="error">Please pick a temperature type</p>';
+                $msg = '<p class="error">Please pick a conversion type</p>';
             } elseif (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
                 $msg =
                     '<p class="error">Please pick a temperature to convert</p>';
@@ -175,6 +175,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </fieldset>
 </form>
     <?php echo $msg; ?>
-    
+    <a href = "https://docs.google.com/document/d/14rb6GmXOE1eL6P6UqpAUI9Zw_zofNOEiLDxjyKISkNg/edit?usp=sharing">Project Documents</a>
 </body>
 </html>
