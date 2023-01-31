@@ -63,6 +63,8 @@ function conversionMsg($input, $conversion)
         '</b> degrees!</p>';
 }
 
+#=======================================================================
+
 //check server request
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     //check userinput, tempA key and tempB key exist
@@ -114,7 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 }
 
-//error handling
 
 //end server request
 ?>
@@ -154,14 +155,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <li><input type="radio" name="tempB" value="kel"> Kelvin</li>
         </ul>
     <input type="submit" value="Convert">
-     <a href=''>Reset</a>
     </fieldset>
 </form>
-    <?php
-
-     echo $msg;
-
-    ?>
-    
+    <?php echo $msg; ?>
+    <a href = "https://docs.google.com/document/d/14rb6GmXOE1eL6P6UqpAUI9Zw_zofNOEiLDxjyKISkNg/edit?usp=sharing">Project Documents</a>
 </body>
 </html>
