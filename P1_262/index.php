@@ -1,8 +1,6 @@
 <?php
 //initalize variables
-$input = '';
-$conversion = '';
-$msg = '';
+$msg='';
 
 function fahrToCel($arg)
 {
@@ -67,70 +65,56 @@ function conversionMsg($input, $conversion)
 
 //check server request
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //Check POST associate array
-    if (empty($_POST['userInput'])) {
-        $msg = '<p class="error">input a value</p>';
-    } else {
-        $input = intval($_POST['userInput']);
+    //check userinput, tempA key and tempB key exist
+    if (
+        isset($_POST['userInput']) &&
+        array_key_exists('tempA', $_POST) &&
+        array_key_exists('tempB', $_POST)
+    ) {
 
-        //if both toggle empty, print warning
-        if (
+        $input = $_POST['userInput'];
+        //temp combo options
+        if ($_POST['tempA'] == 'fahr' && $_POST['tempB'] == 'cel') {
+            $conversion = fahrToCel($input);
+            $msg = conversionMsg($input, $conversion);
+        } elseif ($_POST['tempA'] == 'fahr' && $_POST['tempB'] == 'kel') {
+            $conversion = fahrToKel($input);
+            $msg = conversionMsg($input, $conversion);
+        } elseif ($_POST['tempA'] == 'cel' && $_POST['tempB'] == 'fahr') {
+            $conversion = celToFahr($input);
+            $msg = conversionMsg($input, $conversion);
+        } elseif ($_POST['tempA'] == 'cel' && $_POST['tempB'] == 'kel') {
+            $conversion = celToKel($input);
+            $msg = conversionMsg($input, $conversion);
+        } elseif ($_POST['tempA'] == 'kel' && $_POST['tempB'] == 'fahr') {
+            $conversion = kelToFahr($input);
+            $msg = conversionMsg($input, $conversion);
+        } elseif ($_POST['tempA'] == 'kel' && $_POST['tempB'] == 'cel') {
+            $conversion = kelToCel($input);
+            $msg = conversionMsg($input, $conversion);
+        } else {
+            // temp same, please try again
+            $msg = conversionMsg($input, $input);
+        }
+    }
+
+    //error handling
+        if ($_POST['userInput'] === '') {
+            $msg = '<p class="error">input a value</p>';
+        } elseif (
             !array_key_exists('tempA', $_POST) &&
             !array_key_exists('tempB', $_POST)
         ) {
             $msg =
                 '<p class="error">Please pick two temperatures to convert</p>';
-        } else {
-            //keys exists
-            //if one is toggled and not the other, print warning
-            if (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
-                $msg = '<p class="error">Please pick a temperature type</p>';
-            } elseif (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
-                $msg =
-                    '<p class="error">Please pick a temperature to convert</p>';
-            } else {
-                //temp combo options
-                if ($_POST['tempA'] == 'fahr' && $_POST['tempB'] == 'cel') {
-                    $conversion = fahrToCel($input);
-                    $msg = conversionMsg($input, $conversion);
-                } elseif (
-                    $_POST['tempA'] == 'fahr' &&
-                    $_POST['tempB'] == 'kel'
-                ) {
-                    $conversion = fahrToKel($input);
-                    $msg = conversionMsg($input, $conversion);
-                } elseif (
-                    $_POST['tempA'] == 'cel' &&
-                    $_POST['tempB'] == 'fahr'
-                ) {
-                    $conversion = celToFahr($input);
-                    $msg = conversionMsg($input, $conversion);
-                } elseif (
-                    $_POST['tempA'] == 'cel' &&
-                    $_POST['tempB'] == 'kel'
-                ) {
-                    $conversion = celToKel($input);
-                    $msg = conversionMsg($input, $conversion);
-                } elseif (
-                    $_POST['tempA'] == 'kel' &&
-                    $_POST['tempB'] == 'fahr'
-                ) {
-                    $conversion = kelToFahr($input);
-                    $msg = conversionMsg($input, $conversion);
-                } elseif (
-                    $_POST['tempA'] == 'kel' &&
-                    $_POST['tempB'] == 'cel'
-                ) {
-                    $conversion = kelToCel($input);
-                    $msg = conversionMsg($input, $conversion);
-                } else {
-                    // temp same, please try again
-                    $msg = conversionMsg($input, $input);
-                }
-            }
+        } elseif (isset($_POST['tempA']) && !isset($_POST['tempB'])) {
+            $msg = '<p class="error">Please pick a temperature type</p>';
+        } elseif (!isset($_POST['tempA']) && isset($_POST['tempB'])) {
+            $msg = '<p class="error">Please pick a temperature to convert</p>';
         }
-    }
 }
+
+//error handling
 
 //end server request
 ?>
@@ -173,7 +157,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
      <a href=''>Reset</a>
     </fieldset>
 </form>
-    <?php echo $msg; ?>
+    <?php
+
+     echo $msg;
+
+    ?>
     
 </body>
 </html>
